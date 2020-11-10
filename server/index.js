@@ -1,13 +1,21 @@
 require('dotenv').config();
 const express = require('express');
 const massive = require('massive');
-// require session
+const session = require('express-session');
 const auth = require('./authController');
-const {SERVER_PORT, CONNECTION_STRING} = process.env;
+const {SERVER_PORT, CONNECTION_STRING, SESSION_SECRET} = process.env;
 
 const app = express();
 // Top level middleware
 app.use(express.json());
+app.use(session({
+    resave:false,
+    saveUninitialized: true,
+    secret: SESSION_SECRET,
+    cookie: {maxAge: 
+        604800000
+    }
+}))
 
 massive({
     connectionString: CONNECTION_STRING,
